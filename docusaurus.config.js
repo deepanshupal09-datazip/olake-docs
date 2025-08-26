@@ -139,7 +139,7 @@ const config = {
 
       announcementBar: {
         content:
-          '<strong>Join OLake Community Week!🎉 </strong>&nbsp;&nbsp;&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://lu.ma/olake" style="color: white; font-weight: bold;">REGISTER NOW</a>',
+          '<strong>Join OLake Community Week! 🎉</strong>&nbsp;&nbsp;&nbsp;<span class="text-white">August 28 – Sept 4</span>&nbsp;&nbsp;&nbsp;<a target="_blank" rel="noopener noreferrer" href="https://lu.ma/olake" class="text-white font-bold">REGISTER NOW</a>',
         backgroundColor: '#193AE6',
         textColor: 'white',
         isCloseable: true,
