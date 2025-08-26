@@ -235,81 +235,6 @@ for{
 # chunks now contains all (min, max) ranges for parallel ingestion
 ```
 
-## Oracle
-
-OLake’s Oracle driver supports a single chunking strategy that leverages Oracle’s `DBMS_PARALLEL_EXECUTE` package. This SYS-owned utility efficiently splits large tables into manageable chunks for parallel processing. The driver uses the `CREATE_CHUNKS_BY_ROWID` method, which relies on the physical `ROWID` pseudo-column—an approach that is typically faster than logical, row-based strategies on very large datasets.
-
-### Block-based chunking
-
-Rather than chunking by a fixed number of rows, OLake sets `by_row => FALSE`, instructing Oracle to create chunks based on the number of blocks. This yields more uniform chunk sizes on disk and helps produce Parquet files of consistent sizes.
-
-#### Determining block size
-
-The block size is dynamically retrieved:
-
-```sql
-SELECT TO_NUMBER(value)
-FROM   v$parameter
-WHERE  name = 'db_block_size';
-```
-
-This value is defined by the DBA at database creation (commonly 8,192 bytes unless configured otherwise).
-
-#### Estimating chunk size
-
-Blocks per chunk are estimated using:
-
-`Blocks per Chunk = (Target Parquet Size × Compression Ratio) / Block Size`
-
-Choose a target Parquet size and compression ratio suitable for your workload to produce well-sized output files.
-
-### Chunk creation
-
-Chunks are created via PL/SQL:
-
-```sql
-BEGIN
-  DBMS_PARALLEL_EXECUTE.create_chunks_by_rowid(
-    task_name   => 'example-task',
-    table_owner => '<owner-name>',
-    table_name  => '<table-name>',
-    by_row      => FALSE,
-    chunk_size  => <blocksPerChunk>
-  );
-END;
-```
-
-### Retrieving chunk boundaries
-
-After execution, generated chunks can be inspected with:
-
-```sql
-SELECT START_ROWID, END_ROWID, TASK_NAME
-FROM   USER_PARALLEL_EXECUTE_CHUNKS
-WHERE  TASK_NAME = '<example-task>'
-ORDER BY CHUNK_ID;
-```
-
-Example output:
-
-| START_ROWID        | END_ROWID          | TASK_NAME    |
-|--------------------|--------------------|--------------|
-| AAAHAOAACAAAicwAAA | AAAHAOAACAAAidhH// | example-task |
-| AAAHAOAACAAAidiAAA | AAAHAOAACAAAieTH// | example-task |
-| AAAHAOAACAAAieUAAA | AAAHAOAACAAAifFH// | example-task |
-| AAAHAOAACAAAifGAAA | AAAHAOAACAAAif3H// | example-task |
-| AAAHAOAACAAAif4AAA | AAAHAOAACAAAigpH// | example-task |
-
-### Post-processing of chunk boundaries
-
-To ensure contiguous ranges and align with OLake’s chunk iteration, each chunk is adjusted to span from the current `START_ROWID` to the next chunk’s `START_ROWID`. The final chunk is open-ended (`END_ROWID = NULL`).
-
-- AAAHAOAACAAAicwAAA → AAAHAOAACAAAidiAAA
-- AAAHAOAACAAAidiAAA → AAAHAOAACAAAieUAAA
-- AAAHAOAACAAAieUAAA → AAAHAOAACAAAifGAAA
-- AAAHAOAACAAAifGAAA → AAAHAOAACAAAif4AAA
-- AAAHAOAACAAAif4AAA → NULL
-
 ## Postgresql
 
 ### 1. CTID Ranges
@@ -484,14 +409,5 @@ for {
 ```
 
 
-
-## Summary
-
-- MongoDB: SplitVector for data-aware boundaries; `$bucketAuto` for thread-scaled buckets; ObjectId timestamp windows for time-ordered ingestion.
-- MySQL: Primary-key sliding windows with dynamic chunk size = total rows ÷ (threads × 8) to maximize parallelism.
-- Oracle: `DBMS_PARALLEL_EXECUTE.create_chunks_by_rowid` with block-based chunking (`by_row => FALSE`) for uniform Parquet output sizes.
-- PostgreSQL: CTID page ranges when no split column; numeric split via batch-size ranges; non-numeric split via successive MAX-boundary queries.
-
-These strategies balance concurrency and data distribution while avoiding source overload. Configure threads and batch sizes in `source.json` to match workload and infrastructure.
 
 <BlogCTA/>
