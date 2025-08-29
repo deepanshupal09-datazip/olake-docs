@@ -58,7 +58,7 @@ helm repo update
 Now for the magic, this one command should be run:
 
 ```bash
-helm install olake olake/olake --namespace olake --create-namespace
+helm install olake olake/olake 
 ```
 
 With this command, the entire OLake stack is deployed: the UI, the Temporal orchestrator, the OLake workers, and the necessary PostgreSQL and Elasticsearch databases. For this quick start, even a simple NFS server for shared storage is provisioned.
