@@ -66,7 +66,7 @@ With this command, the entire OLake stack is deployed: the UI, the Temporal orch
 The components can be watched as they come to life:
 
 ```bash
-kubectl get pods -n olake
+kubectl get pods 
 NAME                                  READY   STATUS    RESTARTS   AGE
 elasticsearch-efgh                    1/1     Running   0          2m
 olake-nfs-server-mnop                 1/1     Running   0          2m
@@ -81,7 +81,7 @@ olake-worker-6c6b7d8d90-klmno         1/1     Running   0          2m
 The platform is now running. To access the OLake UI, the port can be forwarded from the service to a local machine or accessed via domain in case setup using Ingress:
 
 ```bash
-kubectl port-forward svc/olake-ui 8080:8080 8000:8000 -n olake
+kubectl port-forward svc/olake-ui 8080:8080 8000:8000
 ```
 
 A browser can be opened to `http://localhost:8000`, and login with `admin` / `password` to create a job. In just a few minutes, a complete data replication platform has been deployed.
