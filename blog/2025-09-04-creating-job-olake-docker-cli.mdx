@@ -2,8 +2,8 @@
 title: "From Postgres to Iceberg: Creating OLake Jobs with Docker CLI and UI"
 description: "A friendly, step-by-step walkthrough to configure replication from Postgres to Apache Iceberg (Glue catalog) using the OLake UI or the Docker CLI."
 slug: creating-job-olake-docker-cli
-authors: [akshay]
-tags: [docker,apache-iceberg,replication]
+authors: [akshay, vishal]
+tags: [iceberg,replication]
 image: /img/blog/cover/pipeline-on-olake.png
 ---
 
@@ -299,8 +299,7 @@ Select exactly what to move and how.
 }
 ```
 
-> 📚 Need a refresher on how modes differ?
-> See: [Sync Modes](/docs/understanding/olake-terminologies/stream-properties#sync-modes).
+> 📚 Need a refresher on how modes differ? Check out our documentation on sync modes.
 
 ### 4) Run the Sync
 
@@ -359,7 +358,8 @@ docker run --pull=always \
   --state /mnt/config/state.json
 ```
 
-More details: [State File (Postgres)](/docs/connectors/postgres/config#statejson-configuration)
+More details: Check out our Postgres connector documentation for state file configuration.
+
 
 ---
 
