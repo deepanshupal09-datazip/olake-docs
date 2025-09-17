@@ -84,6 +84,8 @@ const RegistrationSection = () => {
                 OLake makes data replication faster by parallelising full loads, leveraging change
                 streams for real-time sync, and pulling data in a lake house
               </div>
+
+
             </div>
 
             {/* Right side - Feature Text */}
