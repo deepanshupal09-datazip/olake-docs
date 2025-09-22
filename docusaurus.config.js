@@ -4,8 +4,8 @@ const imageFetchPriorityRehypePlugin = require('./src/plugins/image-fetchpriorit
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'OLake',
-  tagline: 'Fastest way to replicate MongoDB data in Apache Iceberg',
+  title: 'OLake | Fastest Open Source Data Replication Tool',
+  tagline: 'Fastest open-source tool for replicating Databases to Data Lake in Open Table Formats like Apache Iceberg. Efficient, quick and scalable data ingestion for real-time analytics. Supporting Postgres, MongoDB, MySQL, Oracle and Kafka.',
   favicon: 'img/logo/olake-blue.svg',
 
   // Set the production url of your site here
