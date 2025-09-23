@@ -79,8 +79,8 @@ export default function New3Page() {
 
   return (
     <Layout
-      title='OLake'
-      description='Fastest Database to Data Lakehouse data replication tool, open sourced'
+      title='OLake | Fastest Open Source Data Replication Tool'
+      description='Fastest open-source tool for replicating Databases to Data Lake in Open Table Formats like Apache Iceberg. Efficient, quick and scalable data ingestion for real-time analytics. Supporting Postgres, MongoDB, MySQL, Oracle and Kafka with 5-500x faster than alternatives.'
     >
       <Head>
         <script
@@ -89,17 +89,17 @@ export default function New3Page() {
             __html: JSON.stringify({
               '@context': 'https://schema.org/',
               '@type': 'Organization',
-              'name': 'OLake',
-              'url': 'https://olake.io/',
-              'logo': 'https://olake.io/img/logo/olake-blue.svg',
-              'description': 'Fastest way to replicate MongoDB data in Apache Iceberg',
-              'foundingDate': '2023',
-              'contactPoint': {
+              name: 'OLake',
+              url: 'https://olake.io/',
+              logo: 'https://olake.io/img/logo/olake-blue.svg',
+              description: 'Fastest open-source tool for replicating Databases to Data Lake in Open Table Formats like Apache Iceberg. Efficient, quick and scalable data ingestion for real-time analytics. Supporting Postgres, MongoDB, MySQL, Oracle and Kafka with 5-500x faster than alternatives.',
+              foundingDate: '2023',
+              contactPoint: {
                 '@type': 'ContactPoint',
                 'contactType': 'customer service',
                 'email': 'hello@olake.io'
               },
-              'sameAs': [
+              sameAs: [
                 'https://github.com/datazip-inc/olake',
                 'https://join.slack.com/t/getolake/shared_invite/zt-2uyphqf69-KQxih9Gwd4GCQRD_XFcuyw'
               ]
@@ -109,7 +109,7 @@ export default function New3Page() {
       </Head>
       <div className='w-full overflow-x-hidden bg-white dark:bg-gray-900'>
         {/* Main heading for SEO and accessibility */}
-        <h1 className='sr-only'>OLake - Fastest Open Source Database to Data Lakehouse Pipeline</h1>
+        <h1 className='sr-only'>OLake - Fastest Open Source Data Replication Tool</h1>
         <main id='main-content' role='main'>
           <DataWarehouseToLakes />
           <WorkflowSection />
