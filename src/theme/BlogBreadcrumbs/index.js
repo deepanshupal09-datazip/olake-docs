@@ -4,26 +4,61 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import { useLocation } from '@docusaurus/router';
 import clsx from 'clsx';
+import { truncateTitle } from '../../lib/utils';
+
+// Try to import useBlogPost, handle gracefully if not available
+let useBlogPost;
+try {
+  useBlogPost = require('@docusaurus/plugin-content-blog/client').useBlogPost;
+} catch (e) {
+  // Hook not available, we'll handle this case below
+}
 
 export default function BlogBreadcrumbs() {
   const { siteConfig } = useDocusaurusContext();
   const location = useLocation();
   const baseUrl = useBaseUrl('/');
 
+  // Try to get blog post metadata if available
+  let blogPostMetadata = null;
+  if (useBlogPost) {
+    try {
+      const blogPost = useBlogPost();
+      blogPostMetadata = blogPost?.metadata;
+    } catch (e) {
+      // Not in a blog post context
+    }
+  }
+
   // Don't show breadcrumbs on the main blog listing page
   if (location.pathname === '/blog' || location.pathname === '/') {
     return null;
   }
 
+  // Helper to capitalize first letter
+  const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+  // Helper to get readable name from slug
+  const getReadableName = (slug) => {
+    return slug
+      .split('-')
+      .map(word => capitalize(word))
+      .join(' ');
+  };
+
   const isBlogPost =
     location.pathname.startsWith('/blog/') &&
     location.pathname !== '/blog' &&
-    !location.pathname.includes('/page/');
+    !location.pathname.includes('/page/') &&
+    !location.pathname.includes('/tags/') &&
+    !location.pathname.includes('/authors/');
 
   const isIcebergPost =
     location.pathname.startsWith('/iceberg/') &&
     location.pathname !== '/iceberg' &&
-    !location.pathname.includes('/page/');
+    !location.pathname.includes('/page/') &&
+    !location.pathname.includes('/tags/') &&
+    !location.pathname.includes('/authors/');
 
   // Helper renderer for breadcrumb items
   const renderBreadcrumbItem = (item, index) => (
@@ -59,8 +94,10 @@ export default function BlogBreadcrumbs() {
         itemProp="item"
         itemScope
         itemType="https://schema.org/Thing" 
+        aria-label={item.fullLabel || item.label}
+        title={item.fullLabel || item.label}
       >
-        <span itemProp="name" className="flex items-center">
+        <span className="flex items-center">
           {index === 0 ? (
             <svg
               viewBox="0 0 24 24"
@@ -73,17 +110,147 @@ export default function BlogBreadcrumbs() {
             item.label
           )}
         </span>
+        {/* Hidden full title for search engines in schema.org markup */}
+        <meta itemProp="name" content={item.fullLabel || item.label} />
         <meta itemProp="@id" content={item.href} /> 
       </Link>
       <meta itemProp="position" content={String(index + 1)} />
     </li>
   );
 
+  // Handle Iceberg tags pages
+  if (location.pathname.startsWith('/iceberg/tags')) {
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const breadcrumbItems = [
+      { label: 'Home', href: baseUrl },
+      { label: 'Iceberg', href: '/iceberg' },
+      { label: 'Tags', href: '/iceberg/tags' }
+    ];
+
+    // If it's a specific tag page
+    if (pathParts.length > 2 && pathParts[2]) {
+      const tagName = getReadableName(pathParts[2]);
+      breadcrumbItems.push({ label: tagName, href: location.pathname, current: true });
+    } else {
+      breadcrumbItems[breadcrumbItems.length - 1].current = true;
+    }
+
+    return (
+      <nav
+        className="mb-4"
+        aria-label="Breadcrumb"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList"
+      >
+        <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          {breadcrumbItems.map(renderBreadcrumbItem)}
+        </ol>
+      </nav>
+    );
+  }
+
+  // Handle Iceberg authors pages
+  if (location.pathname.startsWith('/iceberg/authors')) {
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const breadcrumbItems = [
+      { label: 'Home', href: baseUrl },
+      { label: 'Iceberg', href: '/iceberg' },
+      { label: 'Authors', href: '/iceberg/authors' }
+    ];
+
+    // If it's a specific author page
+    if (pathParts.length > 2 && pathParts[2]) {
+      const authorName = getReadableName(pathParts[2]);
+      breadcrumbItems.push({ label: authorName, href: location.pathname, current: true });
+    } else {
+      breadcrumbItems[breadcrumbItems.length - 1].current = true;
+    }
+
+    return (
+      <nav
+        className="mb-4"
+        aria-label="Breadcrumb"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList"
+      >
+        <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          {breadcrumbItems.map(renderBreadcrumbItem)}
+        </ol>
+      </nav>
+    );
+  }
+
+  // Handle Blog tags pages
+  if (location.pathname.startsWith('/blog/tags')) {
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const breadcrumbItems = [
+      { label: 'Home', href: baseUrl },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Tags', href: '/blog/tags' }
+    ];
+
+    // If it's a specific tag page
+    if (pathParts.length > 2 && pathParts[2]) {
+      const tagName = getReadableName(pathParts[2]);
+      breadcrumbItems.push({ label: tagName, href: location.pathname, current: true });
+    } else {
+      breadcrumbItems[breadcrumbItems.length - 1].current = true;
+    }
+
+    return (
+      <nav
+        className="mb-4"
+        aria-label="Breadcrumb"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList"
+      >
+        <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          {breadcrumbItems.map(renderBreadcrumbItem)}
+        </ol>
+      </nav>
+    );
+  }
+
+  // Handle Blog authors pages
+  if (location.pathname.startsWith('/blog/authors')) {
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const breadcrumbItems = [
+      { label: 'Home', href: baseUrl },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Authors', href: '/blog/authors' }
+    ];
+
+    // If it's a specific author page
+    if (pathParts.length > 2 && pathParts[2]) {
+      const authorName = getReadableName(pathParts[2]);
+      breadcrumbItems.push({ label: authorName, href: location.pathname, current: true });
+    } else {
+      breadcrumbItems[breadcrumbItems.length - 1].current = true;
+    }
+
+    return (
+      <nav
+        className="mb-4"
+        aria-label="Breadcrumb"
+        itemScope
+        itemType="https://schema.org/BreadcrumbList"
+      >
+        <ol className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+          {breadcrumbItems.map(renderBreadcrumbItem)}
+        </ol>
+      </nav>
+    );
+  }
+
   if (isIcebergPost) {
+    // Get the blog post title if available
+    const blogTitle = blogPostMetadata?.title || 'Blog Post';
+    const truncatedTitle = truncateTitle(blogTitle, 70);
+
     const icebergBreadcrumbItems = [
       { label: 'Home', href: baseUrl },
       { label: 'Iceberg', href: '/iceberg' },
-      { label: 'Blog', href: location.pathname, current: true },
+      { label: truncatedTitle, fullLabel: blogTitle, href: location.pathname, current: true },
     ];
 
     return (
@@ -104,9 +271,14 @@ export default function BlogBreadcrumbs() {
     return null;
   }
 
+  // Get the blog post title if available
+  const blogTitle = blogPostMetadata?.title || 'Blog Post';
+  const truncatedTitle = truncateTitle(blogTitle, 70);
+
   const breadcrumbItems = [
     { label: 'Home', href: baseUrl },
-    { label: 'Blog', href: '/blog', current: true },
+    { label: 'Blog', href: '/blog' },
+    { label: truncatedTitle, fullLabel: blogTitle, href: location.pathname, current: true },
   ];
 
   return (
