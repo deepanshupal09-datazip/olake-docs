@@ -117,6 +117,16 @@ arsham:
   socials:
     linkedin: arsham-eslami
 
+badal:
+  page: true
+  name: Badal Prasad Singh
+  title: OLake Maintainer
+  image_url: /img/authors/badal.webp
+  email: badal@datazip.io
+  socials:
+    linkedin: badalprasadsingh
+
+
 shruti:
   page: true
   name: Shruti Mantri
