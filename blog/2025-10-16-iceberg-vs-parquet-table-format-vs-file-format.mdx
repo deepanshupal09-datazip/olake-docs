@@ -1,4 +1,4 @@
----
+
 title: "Parquet vs. Iceberg: From File Format to Data Lakehouse King"
 description: "Understand how Apache Parquet and Apache Iceberg complement each other — the foundation and blueprint for building reliable, scalable data lakehouses."
 slug: iceberg-vs-parquet-table-format-vs-file-format
@@ -6,7 +6,7 @@ date: 2025-10-16
 authors: [shruti]
 tags: [iceberg, parquet, file-format, table-format]
 image: /img/blog/cover/parquet-vs-iceberg.webp
----
+
 
 # Parquet vs. Iceberg: From File Format to Data Lakehouse King
 
@@ -19,7 +19,7 @@ Iceberg provides the database-like reliability and features that raw collections
 You don't choose between the foundation and the blueprint; you need both to build a sound structure.
 
 | **Feature**          | **Raw Parquet**                                                                     | **Apache Iceberg (on top of Parquet)**                                         |
-|----------------------|-------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+|-|-|--|
 | **Type**             | Columnar File Format                                                                | Open Table Format                                                              |
 | **Atomicity**        | **None.** File operations are not atomic and can lead to partial writes.            | **ACID Transactions** delivered through atomic metadata swaps.                 |
 | **Schema Evolution** | **Risky and costly**, often requiring full data rewrites.                           | **Safe and Fast** via metadata-only changes that require no rewrites.          |
@@ -28,7 +28,7 @@ You don't choose between the foundation and the blueprint; you need both to buil
 | **Concurrency**      | **Prone to data corruption** from write conflicts.                                  | **Optimistic Concurrency Control** to safely manage simultaneous writes.       |
 | **Performance**      | Fast data scans, but bottlenecked by slow file listing operations.                  | Fast scans plus fast query planning via indexed manifest files.                |
 
----
+
 
 ## Introduction
 
@@ -42,7 +42,7 @@ This is precisely why the discussion of Parquet and Iceberg is so critical today
 
 Iceberg doesn't just improve the data lake; it makes it dependable.
 
----
+
 
 ## Background & Evolution
 
@@ -98,7 +98,6 @@ This architecture provides the best of both worlds: the underlying data files ar
 
 This decoupling is the architectural key that unlocks database-like features on the data lake. It is the foundation for ACID transactions, safe schema evolution, and time travel.
 
----
 
 ## Architectural Foundations
 
@@ -158,7 +157,7 @@ During query planning, the engine uses the statistics in these manifest files to
 
 Manifests transform a slow file-listing problem into a fast, indexed metadata lookup.
 
----
+
 
 ## Key Feature Showdown
 
@@ -222,7 +221,7 @@ As data platforms grow, multiple jobs will inevitably need to write to the same 
 
 Iceberg ensures data integrity by preferring a failed job over corrupted data.
 
----
+
 
 ## Real-World Workflows
 
@@ -266,14 +265,14 @@ Getting fresh, real-time data into the lake has always been at odds with maintai
 
 Iceberg decouples the act of ingestion from the act of optimization. This allows you to achieve low-latency data availability without sacrificing the high-throughput query performance that large files provide.
 
----
+
 
 ## Decision Matrix
 
 Adopting a table format is a deliberate architectural choice. While powerful, it introduces a layer of metadata management that is only justified if it solves a clear and present set of problems. Use the following matrix to map your project's requirements to the appropriate technology. The more your needs align with the right-hand column, the stronger the case for adopting Iceberg.
 
 | **Criteria**             | **Raw Parquet Architecture**                                                                      | **Iceberg Table Format Architecture**                                                                                 |
-|--------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+|--||--|
 | **Schema Volatility**    | Best for static schemas that rarely or never change.                                              | Designed for agile environments where schemas evolve frequently (adding, renaming, or reordering columns).            |
 | **Concurrency**          | Suited for simple, single-writer batch ETL workflows.                                             | Essential for complex workloads with multiple concurrent writers, streaming ingest, and user-driven updates.          |
 | **Data Reliability**     | Acceptable if occasional inconsistencies from failed jobs can be tolerated or handled downstream. | **Required** when **ACID guarantees** are non-negotiable for mission-critical reporting and BI.                       |
@@ -283,7 +282,7 @@ Adopting a table format is a deliberate architectural choice. While powerful, it
 
 This matrix serves as a pragmatic guide. If your project's characteristics fall predominantly in the right-hand column, a table format like Iceberg is no longer a "nice-to-have"; it is a foundational requirement for a **robust** and **future-proof** data platform.
 
----
+
 
 ## Migration Playbook
 
@@ -339,7 +338,7 @@ A successful migration requires avoiding these common operational mistakes.
 
 A migration is a one-time cost that pays dividends in reliability and performance for years to come.
 
----
+
 
 ## Performance & Cost Tuning
 
@@ -383,7 +382,7 @@ These tables are the primary tool for an architect to validate that compaction a
 
 Of course. We are approaching the conclusion of our architectural blueprint. Before the final summary, it is essential to address the common, practical questions that arise during implementation. This section serves as a direct, authoritative reference to clarify key distinctions and operational realities.
 
----
+
 
 ## FAQ: People Also Ask
 
@@ -431,7 +430,7 @@ When a `DELETE` command is issued, Iceberg creates lightweight **delete files**.
 
 Think of it as an errata slip published for a book. The original book text is not altered, but the slip tells the reader to ignore a specific sentence on a specific page. The process of making this deletion permanent by rewriting the data files is handled by a separate, asynchronous **compaction** job.
 
----
+
 
 ## Conclusion
 
