@@ -9,7 +9,7 @@ tags: [mongodb,etl ]
 
 # Four Critical MongoDB ETL Challenges and How to tackle them for your Data Lake and Data Warehouse?
 
-![mongodb-etl-challenges-cover](/img/blog/cover/mongodb-etl-challenges-cover.webp)
+![MongoDB ETL challenges and solutions for data replication and analytics](/img/blog/cover/mongodb-etl-challenges-cover.webp)
 
 
 Moving data from MongoDB into a data warehouse or lakehouse for analytics and reporting can be a complex process. 
@@ -346,7 +346,7 @@ To convert the semi-structured JSON data from MongoDB into a SQL-queriable forma
 
 #### 1. Orders Table (Flattened from the original JSON)
 
-![mongodb-etl-challenges-1](/img/blog/2024/09/mongodb-etl-challenges-1.webp)
+![MongoDB document structure showing nested arrays and complex data types](/img/blog/2024/09/mongodb-etl-challenges-1.webp)
 
 *Primary Key (PK):* `order_id`
 
@@ -356,7 +356,7 @@ This table contains all the flattened information about the order itself, includ
 
 Since the items is an array in the JSON, it needs its own table. This table will store each item associated with an order, with a foreign key linking back to the order.
 
-![mongodb-etl-challenges-2](/img/blog/2024/09/mongodb-etl-challenges-2.webp)
+![MongoDB aggregation pipeline for ETL data transformation and processing](/img/blog/2024/09/mongodb-etl-challenges-2.webp)
 
 *Primary Key (PK):* `item_id`
 
@@ -366,7 +366,7 @@ Since the items is an array in the JSON, it needs its own table. This table will
 
 The categories array inside each item needs its own table. Each category will reference the `item_id` from the items table.
 
-![mongodb-etl-challenges-3](/img/blog/2024/09/mongodb-etl-challenges-3.webp)
+![MongoDB Compass query result showing ETL data processing with aggregation](/img/blog/2024/09/mongodb-etl-challenges-3.webp)
 
 *Primary Key (PK): Composite (*`item_id`*,* `category`*)*
 
@@ -374,7 +374,7 @@ The categories array inside each item needs its own table. Each category will re
 
 **SQL Representation (Flattened Objects + Separate Arrays):**
 
-![mongodb-etl-challenges-4](/img/blog/2024/09/mongodb-etl-challenges-4.webp)
+![MongoDB aggregation pipeline with $unwind for array flattening in ETL](/img/blog/2024/09/mongodb-etl-challenges-4.webp)
 
 ### SQL Table Definitions:
 
@@ -457,7 +457,7 @@ GROUP BY 
 
 #### Sample Output:
 
-![mongodb-etl-challenges-5](/img/blog/2024/09/mongodb-etl-challenges-5.webp)
+![MongoDB Compass query result showing flattened array data for ETL processing](/img/blog/2024/09/mongodb-etl-challenges-5.webp)
 
 This query retrieves the order details, including user information, item details, and the corresponding categories for each item.
 

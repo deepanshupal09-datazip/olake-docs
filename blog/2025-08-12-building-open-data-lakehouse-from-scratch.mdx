@@ -9,7 +9,7 @@ tags: [iceberg, lakehouse]
 
 import YouTubeEmbed from '@site/src/components/webinars/YouTubeEmbed';
 
-![lakehouse-architecture](/img/blog/cover/open-data-lakehouse-cover.webp)
+![Open data lakehouse architecture diagram with MySQL OLake MinIO PrestoDB](/img/blog/cover/open-data-lakehouse-cover.webp)
 
 # Building a Complete Open Data Lakehouse from Scratch with MySQL, OLake, PrestoDB and MinIO
 
@@ -30,7 +30,7 @@ For this setup, we're going to orchestrate four key components that work togethe
 
 What makes this architecture particularly elegant is how these components communicate through Apache Iceberg table format, ensuring we get ACID transactions, schema evolution, and time travel capabilities right out of the box.
 
-![lakehouse-architecture](/img/blog/2025/10/exaclidraw.webp)
+![Data flow architecture diagram showing CDC from MySQL to Iceberg via OLake](/img/blog/2025/10/exaclidraw.webp)
 
 ## How is the data flowing?
 
@@ -76,11 +76,11 @@ docker compose up -d
 
 Once it's running, go ahead at http://localhost:8000, olake-ui and use these credentials:
 
-![olake-login](/img/blog/2025/10/olake-login.webp)
+![OLake UI login screen with username and password fields for admin access](/img/blog/2025/10/olake-login.webp)
 
 **You are greeted with Olake UI!**
 
-![olake-ui](/img/blog/2025/10/olakeui.webp)
+![OLake UI dashboard showing sources destinations and jobs navigation menu](/img/blog/2025/10/olakeui.webp)
 
 ## Step 2: Deep Dive: Setting Up Our Project Structure - What Are We Actually Creating Here?
 
@@ -103,7 +103,7 @@ Now at the root create two more files `docker-compose.yml` and `init_mysql.sql` 
 
 The code they would hold and their functionalities described below. Now, here's what our folder structure looks like:
 
-![folder-structure](/img/blog/2025/10/folder-structure.webp)
+![Project folder structure showing presto-config catalog directories and YAML files](/img/blog/2025/10/folder-structure.webp)
 
 ### File-by-File Breakdown - What Each One Actually Does
 
@@ -213,7 +213,7 @@ Dataset taken is a simplified example of a retail store database.
 
 It contains three main tables:
 
-![Database ERD](/img/blog/2025/10/erd.webp)
+![Entity relationship diagram showing customers products orders database schema](/img/blog/2025/10/erd.webp)
 
 - **customers** – stores customer details such as name, email, and registration date.
 - **products** – lists products available for sale, including their category and price.
@@ -299,7 +299,7 @@ cd my-lakehouse
 docker compose up -d
 ```
 
-![docker-compose-1](/img/blog/2025/10/docker-compose1.webp)
+![Docker Compose up command output showing container creation and startup logs](/img/blog/2025/10/docker-compose1.webp)
 
 This will start all our services. You can monitor the startup progress and check that everything is running smoothly:
 
@@ -307,13 +307,13 @@ This will start all our services. You can monitor the startup progress and check
 docker compose ps
 ```
 
-![docker-compose-2](/img/blog/2025/10/docker-compose2.webp)
+![Docker Compose PS output showing running containers with status and ports](/img/blog/2025/10/docker-compose2.webp)
 
 ## Step 5: MinIO Console - Your Data Lake Dashboard
 
 Access the MinIO Console at http://localhost:9001
 
-![minio-ui](/img/blog/2025/10/minioui.webp)
+![MinIO web console login screen with access key and secret key fields](/img/blog/2025/10/minioui.webp)
 
 Credentials to login are:
 - **Username**: minioadmin
@@ -378,7 +378,7 @@ Head over to http://localhost:8080 to access the PrestoDB Web UI. You can now ru
 select * from iceberg.warehouse.products
 ```
 
-![presto-ui](/img/blog/2025/10/prestoimage.webp)
+![PrestoDB web UI running SQL query showing products table results](/img/blog/2025/10/prestoimage.webp)
 
 Well, the really exciting part is watching near real-time queries work. Try updating some data in MySQL and then immediately querying it through Presto - you'll see the changes reflected within seconds!
 
