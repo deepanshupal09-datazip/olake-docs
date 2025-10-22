@@ -125,3 +125,13 @@ badal:
   email: badal@datazip.io
   socials:
     linkedin: badalprasadsingh
+
+
+shruti:
+  page: true
+  name: Shruti Mantri
+  title: Staff Software Engineer
+  image_url: /img/authors/shruti-mantri.webp
+  email: shruti1810@gmail.com
+  socials:
+    linkedin: shruti-mantri-88527a67
