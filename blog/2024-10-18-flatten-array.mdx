@@ -186,7 +186,7 @@ We have taken the same dataset as used in method 1
 
 #### Output table with flattened schema:
 
-!["Denormalized table schema with flattened columns for each project and task, using hierarchical column names from nested JSON"](/img/blog/2024/11/flatten-array-5.webp)
+![Denormalized table schema with flattened columns for each project and task, using hierarchical column names from nested JSON](/img/blog/2024/11/flatten-array-5.webp)
 
 **Note**: The column type here is all TEXT, you can map them to their respective type by identifying the type of data each column is receiving, it is set to TEXT just for illustration purposes.
 
@@ -255,13 +255,13 @@ Code here - [https://gist.github.com/zriyanshdz/e2836c4cb77cc09c846ecab697337fea
 
 #### The output schema and table:
 
-!["ER diagram with normalized tables: main, projects, and project tasks, using keys and foreign keys to represent hierarchical relationships"](/img/blog/2024/11/flatten-array-7.webp)
+![ER diagram with normalized tables: main, projects, and project tasks, using keys and foreign keys to represent hierarchical relationships](/img/blog/2024/11/flatten-array-7.webp)
 
 And the table content will remain the same as shown above.  Now, as the data is flattened into respective tables, you can easily write your analytics query.
 
 ## Method 4: Using Pandas `json_normalize` function
 
-!["Diagram with a panda holding a 'JSON' sign, illustrating nested JSON data being fully flattened into columns of a single main table"](/img/blog/2024/11/flatten-array-8.webp)
+![Diagram with a panda holding a 'JSON' sign, illustrating nested JSON data being fully flattened into columns of a single main table](/img/blog/2024/11/flatten-array-8.webp)
 
 This `json_normalize` function in `pandas` is good for flattening deeply nested JSON objects but can take some time depending upon your `JSON` structure. It can handle various types of structures like arrays, objects, and nested fields.
 
@@ -357,7 +357,7 @@ print(df)
 
 ### Output:
 
-!["Terminal output of a pandas DataFrame showing flattened task and project data with columns for task, project, and metadata fields"](/img/blog/2024/11/flatten-array-9.webp)
+![Terminal output of a pandas DataFrame showing flattened task and project data with columns for task, project, and metadata fields](/img/blog/2024/11/flatten-array-9.webp)
 
 ### Breakdown of Output:
 
@@ -471,7 +471,7 @@ spark.stop()
 
 #### Output 1 :
 
-![MongoDB Compass query result showing array flattening with preserved document structure](/img/blog/2024/11/flatten-array-11.webp)
+![PySpark DataFrame printed in tabular format, with columns for user, project, and task details after flattening nested JSON](/img/blog/2024/11/flatten-array-11.webp)
 
 ### Time Complexity Considerations
 
@@ -481,7 +481,7 @@ It prevents Spark from having to infer the schema on the fly, which can be a slo
 
 ### A.1 Flatten only top level fields using PySpark:
 
-![MongoDB aggregation pipeline with $unwind and $replaceRoot for array flattening](/img/blog/2024/11/flatten-array-12.webp)
+![Diagram showing PySpark flattening JSON by extracting only level 1 keys into individual columns of a main table](/img/blog/2024/11/flatten-array-12.webp)
 
 If you just want to flatten the top level fields using spark, here’s how you can do it:
 
@@ -507,7 +507,7 @@ spark.stop()
 
 #### Output:
 
-![MongoDB Compass query result showing flattened array with preserved parent document fields](/img/blog/2024/11/flatten-array-13.webp)
+![PySpark table output with columns for id, name, contact, location, and projects, where nested fields remain grouped within the main column](/img/blog/2024/11/flatten-array-13.webp)
 
 ### B. Let spark infer the JSON schema automatically and flatten it into columns.
 
@@ -577,7 +577,7 @@ spark.stop()
 
 #### Output:
 
-![MongoDB aggregation pipeline with $unwind and $match for filtered array flattening](/img/blog/2024/11/flatten-array-14.webp)
+![PySpark DataFrame output with flattened columns for user, contact, location, project, and project task fields, showing one record per row](/img/blog/2024/11/flatten-array-14.webp)
 
 ### Key Optimizations Included:
 
@@ -631,11 +631,11 @@ Arrays too are mapped and stored as JSON at the destination table:
 
 **Source Data Schema (from MongoDB) Inferred by Airbyte:**
 
-![MongoDB Compass query result showing filtered array flattening with conditional logic](/img/blog/2024/11/flatten-array-15.webp)
+![Schema setup screen for a data stream, showing checkboxes for each field, field types, and complex JSON fields like objects and arrays](/img/blog/2024/11/flatten-array-15.webp)
 
 **Destination Schema (MySQL):**
 
-![MongoDB aggregation pipeline with $unwind and $sort for ordered array flattening](/img/blog/2024/11/flatten-array-16.webp)
+![Database table structure showing columns with data types including json, text, decimal, varchar, and timestamp](/img/blog/2024/11/flatten-array-16.webp)
 
 Airbyte inferred the data correctly and converted them to JSON in the destination table.
 
@@ -655,7 +655,7 @@ So we went ahead and tested the flattening using Hevo:
 
 **Step 2:** Go to the transformations tab and switch to drag and drop based interface and select **Flatten JSON.**
 
-![MongoDB Compass query result showing sorted array flattening with preserved order](/img/blog/2024/11/flatten-array-17.webp)
+![Data pipeline UI workspace with a Flatten JSON transformation block selected, allowing configuration for parsing JSON into flat database columns](/img/blog/2024/11/flatten-array-17.webp)
 
 **Step 3:** The following are the filters you need to set:
 
@@ -664,7 +664,7 @@ So we went ahead and tested the flattening using Hevo:
 2. Apply on all fields where “Field Name Equals `<FIELD>`”. The FIELD here is the key you wish to expand on.
     
 
-![MongoDB aggregation pipeline with $unwind and $limit for controlled array flattening](/img/blog/2024/11/flatten-array-18.webp)
+![Data pipeline UI showing a Flatten JSON transformation with filters for event type and field name, focused on flattening the 'projects' array field](/img/blog/2024/11/flatten-array-18.webp)
 
 **Step 4:** As claimed by Hevo that they can do horizontal flattening of JSON types, during out testing we found some discrepancies.
 
@@ -673,19 +673,19 @@ So we went ahead and tested the flattening using Hevo:
 2. The screenshot attached below shows even after transformations, the data looks the same. Notice that “projects” is a JSON and according to [Hevo’s Flatten JSON doc, it should do.](https://docs.hevodata.com/pipelines/transformations/drag-drop-trnsfm/transformation-blocks/flatten-json/)
     
 
-![MongoDB aggregation pipeline with $unwind and $count for array flattening statistics](/img/blog/2024/11/flatten-array-19.webp)
+![Side-by-side view of source and transformed JSON, showing a sample event's nested fields and types before data pipeline deployment](/img/blog/2024/11/flatten-array-19.webp)
 
 Our Data as stored in mongoDB.
 
-![MongoDB Compass query result showing array flattening with count aggregation](/img/blog/2024/11/flatten-array-20.webp)
+![MongoDB pretty print output showing a document with nested user, location, and projects arrays containing further nested tasks](/img/blog/2024/11/flatten-array-20.webp)
 
 Hevo gives us an option to choose the mappings, either replicate the incoming JSON to JSON or as JSON strings and array’s to strings. So we tried using this option to see if the flattening is possible using transformations or not.
 
-![MongoDB aggregation pipeline with $unwind and $facet for multi-stage array flattening](/img/blog/2024/11/flatten-array-21.webp)
+![ETL pipeline setup showing JSON replication options either as columns or as strings and a warning that this cannot be changed later](/img/blog/2024/11/flatten-array-21.webp)
 
 So we went ahead with option 2 this time as we had some array fields,
 
-![MongoDB Compass query result showing complex array flattening with multiple aggregation stages](/img/blog/2024/11/flatten-array-22.webp)
+![MongoDB shell output showing pretty-formatted documents with nested fields including contact info, location with coordinates, and projects with nested tasks](/img/blog/2024/11/flatten-array-22.webp)
 
 But those array fields got mapped as “`varchar`” and not normal “arrays” and hence there cannot be any flattening. You can’t even change the schema for a column type from the schema mapper with manual schema settings as Hevo inferred `ARRAY` as a `STRING` field.
 
@@ -693,7 +693,7 @@ But those array fields got mapped as “`varchar`” and not normal “arrays”
 
 Fivetran natively offers the below mentioned transformations using their quickstart data models, or integrating DBT or Coalesce. They support  BigQuery, Databricks, Postgres, Redshift and Snowflake only, if you want to use their native transformations, you just be on any of the above mentioned warehouses or else use dbt.
 
-![MongoDB aggregation pipeline with $unwind and $bucket for array flattening with bucketing](/img/blog/2024/11/flatten-array-23.webp)
+![UI with four cards offering Quickstart no-code models, dbt Core, dbt Cloud, and Coalesce integrations for data transformation, plus a MySQL warning](/img/blog/2024/11/flatten-array-23.webp)
 
 *Image Source: Fivetran*
 

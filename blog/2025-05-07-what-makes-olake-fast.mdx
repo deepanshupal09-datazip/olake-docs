@@ -9,7 +9,7 @@ tags: [olake]
 
 # What makes OLake fast?
 
-![OLake high-performance CDC architecture diagram showing parallel processing optimization](/img/blog/cover/what-makes-olake-fast-cover.webp)
+![What makes OLake fast? Chunking strategies deep dive title with OLake logo on white background](/img/blog/cover/what-makes-olake-fast-cover.webp)
 
 
 OLake is engineered for high-throughput ELT workloads, leveraging a combination of adaptive chunking strategies & parallelized execution for historical load, and change data capture (CDC) techniques to optimize data ingestion performance. 
@@ -25,7 +25,7 @@ To maximize parallelism and throughput for full/historical load of tables, OLake
 
 OLake supports multiple chunking strategies, each optimized for a particular database engine. The strategy selection is dynamic and driver-aware—for example:
 
-![Split vector strategy visualization showing parallel chunk processing for MongoDB CDC](/img/blog/2025/05/what-makes-olake-fast-1.webp)
+![Database splitting strategies by type: MongoDB (Split Vector, Bucket Auto, Timestamp), MySQL (Split via next query), Postgres (CTID Ranges, Split via batch size or next query)](/img/blog/2025/05/what-makes-olake-fast-1.webp)
 
 ## MongoDB
 

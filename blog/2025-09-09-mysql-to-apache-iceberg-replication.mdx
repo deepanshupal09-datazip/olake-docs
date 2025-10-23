@@ -240,7 +240,7 @@ Configure your Iceberg destination in the OLake UI for seamless lakehouse integr
 **Detailed Configuration Guide**: [Glue Catalog Setup](https://olake.io/docs/connectors/glue-catalog)
 **Alternative Catalogs**: For REST catalogs (Lakekeeper, Polaris) and other options: [Catalog Configuration Documentation](https://olake.io/docs/connectors)
 
-![OLake create destination UI for configuring Apache Iceberg on AWS Glue catalog](/img/blog/2025/13/step-4.webp)
+![OLake destination setup UI for Apache Iceberg with AWS Glue catalog configuration form](/img/blog/2025/13/step-4.webp)
 
 ### Step 5: Create Replication Job and Configure Tables
 
@@ -265,9 +265,9 @@ Once your source and destination connections are established, create and configu
 
 **Comprehensive partitioning strategies**: [Iceberg Partitioning Guide](https://olake.io/docs/understanding/iceberg-partitioning)
 
-![OLake UI create destination for Apache Iceberg on AWS Glue with config parameters](/img/blog/2025/13/step-5-1.webp)
+![OLake create job UI selecting existing Postgres data source for pipeline setup](/img/blog/2025/13/step-5-1.webp)
 
-![OLake jobs stream selection UI with Full Refresh + CDC sync mode enabled](/img/blog/2025/13/step-5-2.webp)
+![OLake stream selection step with Full Refresh + CDC sync for dz-stag-users table](/img/blog/2025/13/step-5-2.webp)
 
 ### Step 6: Execute Your MySQL to Iceberg Sync
 
@@ -326,7 +326,7 @@ Validate your MySQL to Iceberg migration by configuring AWS Athena for direct qu
 - Direct Iceberg table access with full metadata support
 - Integration with BI tools like QuickSight, Tableau, and Power BI
 
-![Amazon Athena editor running SELECT query on olake_test_table with results pane](/img/blog/2025/13/step-7.webp)
+![Amazon Athena editor querying olake_test_table with SQL SELECT and results](/img/blog/2025/13/step-7.webp)
 
 ## Production Best Practices for MySQL to Iceberg Replication
 
