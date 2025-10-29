@@ -951,10 +951,7 @@ const config = {
         ]
       }
     ],
-    '@docusaurus/theme-live-codeblock',
-
-    // Trailing slash redirect plugin
-    ['./src/plugins/trailing-slash-redirect/index.js', {}]
+    '@docusaurus/theme-live-codeblock'
   ]
 
   // Removed render-blocking stylesheets - fonts now loaded asynchronously via head tags
